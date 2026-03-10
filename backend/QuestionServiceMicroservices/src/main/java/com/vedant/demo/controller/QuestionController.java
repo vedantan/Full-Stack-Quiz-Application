@@ -3,6 +3,7 @@ import com.vedant.demo.entity.Question;
 import com.vedant.demo.entity.QuizQuestionDTO;
 import com.vedant.demo.entity.QuizResponseDto;
 import com.vedant.demo.service.QuestionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("api/questions")
 public class QuestionController {
 
@@ -33,7 +33,7 @@ public class QuestionController {
     //localhost:8080/questions/category/Java
 
     @PostMapping("/addQuestion")
-    public ResponseEntity<Question> addQuestion(@RequestBody Question q){
+    public ResponseEntity<Question> addQuestion(@Valid @RequestBody Question q){
         return questionService.addQuestion(q);
     }
 
