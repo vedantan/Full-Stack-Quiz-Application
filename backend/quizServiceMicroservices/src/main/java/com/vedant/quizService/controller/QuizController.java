@@ -12,11 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/quiz")
+@RequestMapping("/api/quiz")
 public class QuizController {
 
     @Autowired
     private QuizService quizService;
+
+    @GetMapping("getAllId")
+    public List<Integer> allQuizIds(){
+        return quizService.getAllQuizIds();
+    }
 
     @PostMapping("/create")
     public ResponseEntity<Quiz> quiz(@RequestBody QuizDto quizdto){

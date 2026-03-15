@@ -1,9 +1,16 @@
 package com.vedant.quizService.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class QuizDto {
-    String categoryName;
-    Integer numQuestion;
-    String title;
+    @JsonProperty("categoryName")
+    private String categoryName;
+
+    @JsonProperty("numQuestion")
+    private Integer numQuestion;
+
+    @JsonProperty("title")
+    private String title;
 
     public String getCategoryName() {
         return categoryName;

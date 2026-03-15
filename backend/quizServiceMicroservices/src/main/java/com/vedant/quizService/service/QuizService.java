@@ -54,4 +54,9 @@ public class QuizService {
         ResponseEntity<Integer> score =quizInterface.getScore(responses);
         return score;
     }
+
+    public List<Integer> getAllQuizIds() {
+        return quizDao.findAll()
+                .stream().map(quiz -> quiz.getId()).toList();
+    }
 }
