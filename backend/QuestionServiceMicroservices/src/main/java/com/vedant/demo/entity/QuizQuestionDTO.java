@@ -67,4 +67,17 @@ public class QuizQuestionDTO {
     public void setOption4(String option4) {
         this.option4 = option4;
     }
+
+
+    @Override
+    public String toString() {
+        return "QuizQuestionDTO{" +
+                "id=" + id +
+                ", questionTitle='" + questionTitle + '\'' +
+                ", option1='" + option1 + '\'' +
+                ", option2='" + option2 + '\'' +
+                ", option3='" + option3 + '\'' +
+                ", option4='" + option4 + '\'' +
+                '}';
+    }
 }

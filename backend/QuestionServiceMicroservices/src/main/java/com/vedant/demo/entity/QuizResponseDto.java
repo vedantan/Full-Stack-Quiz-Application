@@ -28,4 +28,12 @@ public class QuizResponseDto {
         this.id = id;
         this.response = response;   // FIX
     }
+
+    @Override
+    public String toString() {
+        return "QuizResponseDto{" +
+                "id=" + id +
+                ", response='" + response + '\'' +
+                '}';
+    }
 }
