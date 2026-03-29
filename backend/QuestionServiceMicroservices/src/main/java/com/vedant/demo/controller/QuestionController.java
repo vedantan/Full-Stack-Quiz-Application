@@ -28,6 +28,7 @@ public class QuestionController {
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category){
+        System.out.println("inside category fetching");
         return questionService.getByCategory(category);
     }
     //localhost:8080/questions/category/Java

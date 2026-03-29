@@ -1,5 +1,6 @@
 package com.vedant.quizService.feign;
 
+import com.vedant.quizService.config.FeignConfig;
 import com.vedant.quizService.entity.QuizQuestionDTO;
 import com.vedant.quizService.entity.QuizResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient("QUESTION-SERVICE")
+@FeignClient(    name = "QUESTION-SERVICE",
+        configuration = FeignConfig.class)
 public interface QuizInterface {
 
     @GetMapping("/api/questions/generate")

@@ -9,6 +9,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
     private String password;
@@ -46,7 +47,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
 
     public User() {
     }

@@ -9,11 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(LoggingAspect.class);
+    private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
 
     // Intercepts all controller methods
-    @Around( "execution(* com.vedant.demo.controller..*(..)) || execution(* com.vedant.demo.service..*(..)) || execution(* com.vedant.demo.dao..*(..))")
+    @Around("execution(* com.vedant.demo.controller..*(..)) || execution(* com.vedant.demo.service..*(..)) || execution(* com.vedant.demo.dao..*(..))")
     public Object logControllerMethods(ProceedingJoinPoint joinPoint) throws Throwable {
 
         String methodName = joinPoint.getSignature().toShortString();
@@ -40,7 +39,7 @@ public class LoggingAspect {
     }
 
     @AfterThrowing(
-            pointcut = "execution(* com.vedant.demo..*(..))",
+            pointcut = "execution(* com.vedant.demo.service..*(..)) || execution(* com.vedant.demo.controller..*(..))",
             throwing = "ex")
     public void logException(Exception ex) {
 

@@ -27,7 +27,7 @@ public class LoggingAspect {
     }
 
     // Exception logging
-    @AfterThrowing(pointcut = "execution(* com.vedant..*(..))", throwing = "exception")
+    @AfterThrowing(pointcut = "execution(* com.vedant..controller..*(..)) || execution(* com.vedant..service..*(..))", throwing = "exception")
     public void logException(JoinPoint joinPoint, Throwable exception) {
 
         System.out.println("Exception in: " + joinPoint.getSignature().getName());
