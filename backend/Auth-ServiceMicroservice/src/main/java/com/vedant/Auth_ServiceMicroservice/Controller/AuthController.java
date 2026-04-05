@@ -3,6 +3,7 @@ package com.vedant.Auth_ServiceMicroservice.Controller;
 import com.vedant.Auth_ServiceMicroservice.Dao.UserRepository;
 import com.vedant.Auth_ServiceMicroservice.Dto.LoginRequestDto;
 import com.vedant.Auth_ServiceMicroservice.Dto.SignupRequestDto;
+import com.vedant.Auth_ServiceMicroservice.Dto.UserDto;
 import com.vedant.Auth_ServiceMicroservice.Entity.User;
 import com.vedant.Auth_ServiceMicroservice.Utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -92,5 +92,14 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok("Admin created");
+    }
+
+
+    @GetMapping("/users")
+    public List<UserDto> getUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new UserDto(user.getUsername(), user.getRole()))
+                .toList();
     }
 }

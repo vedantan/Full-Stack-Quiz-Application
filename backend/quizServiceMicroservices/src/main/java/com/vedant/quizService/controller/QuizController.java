@@ -1,14 +1,18 @@
 package com.vedant.quizService.controller;
 
+import com.vedant.quizService.Dto.LeaderboardDto;
+import com.vedant.quizService.Dto.UserDto;
 import com.vedant.quizService.entity.Quiz;
 import com.vedant.quizService.entity.QuizDto;
 import com.vedant.quizService.entity.QuizQuestionDTO;
 import com.vedant.quizService.entity.QuizResponseDto;
+import com.vedant.quizService.feign.AuthClient;
 import com.vedant.quizService.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,6 +21,9 @@ public class QuizController {
 
     @Autowired
     private QuizService quizService;
+
+    @Autowired
+    private AuthClient authClient;
 
     @GetMapping("getAllId")
     public List<Integer> allQuizIds(){
@@ -46,7 +53,21 @@ public class QuizController {
 //    { "id": 2, "response": "extends" },
 //    { "id": 7, "response": "All of the above" }
 
+    @GetMapping("/leaderboard")
+    public List<LeaderboardDto> getLeaderboard() {
 
+        List<UserDto> users = authClient.getUsers();
+
+        List<LeaderboardDto> result = new ArrayList<>();
+
+        int rank = 1;
+
+        for (UserDto user : users) {
+            result.add(new LeaderboardDto(rank++, user.getUsername(), 0));
+        }
+
+        return result;
+    }
 
 
 

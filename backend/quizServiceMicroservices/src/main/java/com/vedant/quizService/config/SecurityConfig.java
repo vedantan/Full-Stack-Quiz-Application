@@ -30,6 +30,8 @@ public class SecurityConfig {
                         // ✅ allow preflight requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                        .requestMatchers("/api/quiz/leaderboard").permitAll()
+
                         // 🔥 ADMIN ONLY
                         .requestMatchers("/api/quiz/admin/**").hasRole("ADMIN")
 
