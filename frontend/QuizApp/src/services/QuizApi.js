@@ -16,3 +16,8 @@ export const getQuiz = async (id) => {
 export const getIds = () => {
   return ApiClient.get("/quiz/getAllId");
 };
+
+
+export const getLeaderBoard = () => {
+  return ApiClient.get("/quiz/leaderboard");
+}
