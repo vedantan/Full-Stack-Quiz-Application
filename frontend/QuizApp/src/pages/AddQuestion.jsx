@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { addQuestion } from "../services/QuestionApi";
+import { generateIdempotencyKey } from "../services/idempotency";
 import { notify } from "../utils/Toast";
 import Input from "../components/Input";
 
@@ -35,10 +36,15 @@ function AddQuestion() {
     });
   };
 
+  // One key per "add question" action. Double clicks and retries reuse it, so the server
+  // stores the question once. A fresh key is generated only after a successful save.
+  const idempotencyKey = useRef(generateIdempotencyKey());
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addQuestion(question);
+      await addQuestion(question, idempotencyKey.current);
+      idempotencyKey.current = generateIdempotencyKey();
       notify.success("Question added successfully");
       setErrors({});
       setShowForm(false);

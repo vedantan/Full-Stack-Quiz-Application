@@ -9,8 +9,12 @@ export const getQuestionsByCategory = (category) => {
     return ApiClient.get(`/questions/category/${category}`);
 }
 
-export const addQuestion = async  (question) => {
-    const response = await ApiClient.post("/questions/addQuestion", question);
+// idempotencyKey (optional): pass the same key for every attempt of the same "add" action,
+// so a double click or a retry can never create the question twice.
+export const addQuestion = async  (question, idempotencyKey) => {
+    const response = await ApiClient.post("/questions/addQuestion", question, {
+        headers: idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {}
+    });
     return response.data;
 };
 

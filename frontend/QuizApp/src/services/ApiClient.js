@@ -1,4 +1,5 @@
 import axios from "axios";
+import { attachIdempotencyKey, shouldRetry, retryDelayMs } from "./idempotency";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 
@@ -15,7 +16,8 @@ ApiClient.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  return config;
+  // Create-style POSTs get an Idempotency-Key so they can be retried safely
+  return attachIdempotencyKey(config);
 });
 
 // RESPONSE INTERCEPTOR → handle expired token
@@ -25,6 +27,16 @@ ApiClient.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("token");
       window.location.href = "/login";
+    }
+
+    // Safe retry: only requests that carry an Idempotency-Key are retried, with the SAME key,
+    // so the server returns the first result instead of creating a duplicate.
+    if (shouldRetry(error)) {
+      const config = error.config;
+      config.__retryCount = (config.__retryCount || 0) + 1;
+      return new Promise((resolve) => setTimeout(resolve, retryDelayMs(error))).then(() =>
+        ApiClient(config)
+      );
     }
 
     return Promise.reject(error);
