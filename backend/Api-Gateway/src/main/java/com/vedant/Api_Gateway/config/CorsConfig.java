@@ -15,7 +15,10 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:5173");
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        // Idempotency-Key must be allowed or the browser blocks the preflight for retry-safe POSTs
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Idempotency-Key"));
+        // let the browser JS read these response headers (replay marker + "try again shortly" hint)
+        config.setExposedHeaders(List.of("Idempotency-Replayed", "Retry-After"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowCredentials(true);
 
